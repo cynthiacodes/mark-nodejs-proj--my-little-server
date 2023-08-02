@@ -2,6 +2,7 @@ import express from "express";
 import ponyData from "../data/ponies.json";
 import { seasonOneEpisodes } from "./episodes";
 import { pickRandom } from "./random";
+import helloData from "../data/hello.json"
 
 const app = express();
 const serverStartDate = new Date();
@@ -71,8 +72,25 @@ app.get("/season-one/random", (req, res) => {
   });
 });
 
+app.get("/hello-world", (req, res) => {
+  res.json({
+    message: "Loaded Hello JSON data:",
+    data: helloData,
+    countedAsHit: false,
+  });
+});
+
+app.get("/ponies/random", (req, res) => {
+  const randomPonies = pickRandom(ponyData.members);
+  res.json({
+    countedAsHit: false,
+    data: randomPonies,
+  });
+});
+
+
 // using 4000 by convention, but could be changed
-const PORT_NUMBER = 4000;
+const PORT_NUMBER = 5050;
 
 app.listen(PORT_NUMBER, () => {
   console.log(
